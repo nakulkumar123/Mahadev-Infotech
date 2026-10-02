@@ -71,7 +71,36 @@ textarea{min-height:80px;resize:vertical}.full{grid-column:1/-1}
 
   <section id="listScreen" class="card" style="margin-top:14px">
     <div class="row between"><div><h2>Laptops</h2><div class="muted">Shared cloud inventory</div></div><button class="btn primary" onclick="showForm()">+ Add Laptop</button></div>
+     <div class="row" style="margin-top:10px"><button class="btn dark" onclick="showSell()">💰 Sell Laptop</button></div>
     <div id="list"></div>
+  </section>
+
+  <section id="sellScreen" class="card hidden" style="margin-top:14px">
+    <div class="row between"><h2>Sell Laptop</h2><button class="btn light" onclick="showList()">Back</button></div>
+    <p class="muted">Select the laptop being sold, then enter customer and payment details.</p>
+    <div id="sellLaptopList"></div>
+    <div id="saleForm" class="hidden">
+      <div class="notice" id="selectedLaptopNotice"></div>
+      <div class="grid">
+        <div><label>Customer Name *</label><input id="customerName"></div>
+        <div><label>Customer Mobile *</label><input id="customerMobile" type="tel"></div>
+        <div class="full"><label>Customer Address</label><textarea id="customerAddress"></textarea></div>
+        <div><div><label>Customer Photo</label><input id="customerPhoto" type="file" accept="image/*"></div></div>
+        <div><div><label>Selling Price *</label><input id="salePrice" type="number" min="0" step="1"></div></div>
+        <div>
+          <label>Payment Mode *</label>
+          <select id="paymentMode" style="width:100%;border:1px solid #d0d5dd;border-radius:10px;padding:11px;background:#fff">
+            <option value="">Select payment mode</option>
+            <option value="Cash">Cash</option>
+            <option value="Online">Online</option>
+          </select>
+        </div>
+      </div>
+      <div class="row" style="margin-top:14px">
+        <button class="btn primary" onclick="saveSale()">Save Sale</button>
+        <button class="btn light" onclick="cancelSaleSelection()">Cancel</button>
+      </div>
+    </div>
   </section>
 
   <section id="formScreen" class="card hidden" style="margin-top:14px">
@@ -98,12 +127,13 @@ textarea{min-height:80px;resize:vertical}.full{grid-column:1/-1}
 
 <nav id="nav" class="nav hidden">
   <button class="btn light" onclick="showList()">📋 Laptops</button>
+  <button class="btn dark" onclick="showSell()">💰 Sell</button>
   <button class="btn primary" onclick="showForm()">＋ Add Laptop</button>
 </nav>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-let sb=null, laptops=[], previewUrls=[];
+let sb=null, laptops=[], previewUrls=[], selectedSaleLaptop=null;
 
 const $=id=>document.getElementById(id);
 function show(id){$(id).classList.remove('hidden')}
@@ -131,7 +161,68 @@ async function login(){
 }
 async function logout(){await sb.auth.signOut();location.reload()}
 function startApp(session){hide('setup');hide('login');show('app');show('nav');$('userEmail').textContent=session.user.email||'';loadLaptops()}
-function showList(){hide('formScreen');show('listScreen');window.scrollTo({top:0,behavior:'smooth'})}
+function showList(){hide('formScreen');hide('sellScreen');show('listScreen');window.scrollTo({top:0,behavior:'smooth'})}
+function showSell(){
+  hide('listScreen');hide('formScreen');show('sellScreen');
+  selectedSaleLaptop=null;hide('saleForm');
+  renderSellLaptopList();window.scrollTo({top:0,behavior:'smooth'});
+}
+function renderSellLaptopList(){
+  const box=$('sellLaptopList');box.innerHTML='';
+  const available=laptops.filter(x=>String(x.status||'').toLowerCase()!=='sold');
+  if(!available.length){
+    box.innerHTML='<div class="notice" style="margin-top:12px">No available laptops to sell.</div>';return;
+  }
+  available.forEach(x=>{
+    const el=document.createElement('div');el.className='laptop';
+    el.innerHTML='<div class="row between"><div><b>'+esc(x.model||'Unnamed')+'</b><div class="muted">'+esc(x.serial_number||'No serial')+'</div></div><button class="btn primary">Select</button></div><div class="meta" style="margin-top:9px"><div><b>RAM</b>'+esc(x.ram||'-')+'</div><div><b>SSD</b>'+esc(x.ssd||'-')+'</div><div><b>Display</b>'+esc(x.display_size||'-')+'</div><div><b>Price</b>₹'+Number(x.price||0).toLocaleString('en-IN')+'</div></div>';
+    el.querySelector('button').onclick=()=>selectSaleLaptop(x);
+    box.appendChild(el);
+  });
+}
+function selectSaleLaptop(x){
+  selectedSaleLaptop=x;
+  $('selectedLaptopNotice').textContent='Selected laptop: '+(x.model||'Unnamed')+(x.serial_number?' | Serial: '+x.serial_number:'');
+  $('customerName').value='';$('customerMobile').value='';$('customerAddress').value='';
+  $('customerPhoto').value='';$('salePrice').value=x.price??'';$('paymentMode').value='';
+  show('saleForm');window.scrollTo({top:0,behavior:'smooth'});
+}
+function cancelSaleSelection(){selectedSaleLaptop=null;hide('saleForm');renderSellLaptopList()}
+async function saveSale(){
+  if(!selectedSaleLaptop)return alert('Pehle laptop select karo.');
+  const customerName=$('customerName').value.trim(), customerMobile=$('customerMobile').value.trim();
+  const salePrice=$('salePrice').value, paymentMode=$('paymentMode').value;
+  if(!customerName||!customerMobile||!salePrice||!paymentMode)return alert('Customer name, mobile, selling price aur payment mode bharna zaroori hai.');
+  let customerPhotoPath=null;
+  const photo=$('customerPhoto').files[0];
+  if(photo){
+    const safe=photo.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    customerPhotoPath='customers/'+crypto.randomUUID()+'_'+safe;
+    const up=await sb.storage.from('laptop photos').upload(customerPhotoPath,photo,{upsert:false,contentType:photo.type});
+    if(up.error){msg('Customer photo upload failed: '+up.error.message,true);return}
+  }
+  const sale={
+    laptop_id:selectedSaleLaptop.id,
+    laptop_model:selectedSaleLaptop.model||'',
+    serial_number:selectedSaleLaptop.serial_number||'',
+    customer_name:customerName,
+    customer_mobile:customerMobile,
+    customer_address:$('customerAddress').value.trim(),
+    customer_photo:customerPhotoPath,
+    selling_price:Number(salePrice),
+    payment_mode:paymentMode,
+    sold_at:new Date().toISOString()
+  };
+  const result=await sb.from('LaptopSales').insert(sale);
+  if(result.error){
+    if(customerPhotoPath) await sb.storage.from('laptop photos').remove([customerPhotoPath]);
+    msg('Sale save failed: '+result.error.message,true);return;
+  }
+  const update=await sb.from('Laptop').update({status:'Sold'}).eq('id',selectedSaleLaptop.id);
+  if(update.error){msg('Sale saved, but laptop status update failed: '+update.error.message,true);return}
+  msg('Laptop sold successfully.');
+  selectedSaleLaptop=null;hide('saleForm');await loadLaptops();showList();
+}
 function showForm(item=null){
   hide('listScreen');show('formScreen');clearForm();
   if(item){
@@ -172,7 +263,8 @@ function renderList(){
   laptops.forEach(x=>{
     const el=document.createElement('div');el.className='laptop';
     const photos=parsePhotos(x.photos);
-    el.innerHTML='<div class="thumbs"></div><div class="row between"><div><b>'+esc(x.model||'Unnamed')+'</b><div class="muted">'+esc(x.serial_number||'No serial')+'</div></div><div class="row"><button class="btn light" data-edit>Edit</button><button class="btn danger" data-del>Delete</button></div></div><div class="meta" style="margin-top:9px"><div><b>RAM</b>'+esc(x.ram||'-')+'</div><div><b>SSD</b>'+esc(x.ssd||'-')+'</div><div><b>Display</b>'+esc(x.display_size||'-')+'</div><div><b>Price</b>₹'+Number(x.price||0).toLocaleString('en-IN')+'</div><div style="grid-column:1/-1"><b>Problem</b>'+esc(x.problem||'No issue')+'</div></div>';
+    const sold=String(x.status||'').toLowerCase()==='sold';
+    el.innerHTML='<div class="thumbs"></div><div class="row between"><div><b>'+esc(x.model||'Unnamed')+'</b><div class="muted">'+esc(x.serial_number||'No serial')+'</div></div><div class="row"><span class="btn '+(sold?'danger':'light')+'">'+(sold?'SOLD':'Available')+'</span><button class="btn light" data-edit>Edit</button><button class="btn danger" data-del>Delete</button></div></div><div class="meta" style="margin-top:9px"><div><b>RAM</b>'+esc(x.ram||'-')+'</div><div><b>SSD</b>'+esc(x.ssd||'-')+'</div><div><b>Display</b>'+esc(x.display_size||'-')+'</div><div><b>Price</b>₹'+Number(x.price||0).toLocaleString('en-IN')+'</div><div style="grid-column:1/-1"><b>Problem</b>'+esc(x.problem||'No issue')+'</div></div>';
     const thumbs=el.querySelector('.thumbs');
     photos.slice(0,5).forEach(p=>{const im=document.createElement('img');im.alt='photo';thumbs.appendChild(im);getSigned(p).then(u=>{if(u)im.src=u})});
     el.querySelector('[data-edit]').onclick=()=>showForm(x);
@@ -198,7 +290,7 @@ async function saveLaptop(){
     }
     paths=paths.slice(-5);
   }
-  const row={model,ram:$('ram').value.trim(),ssd:$('ssd').value.trim(),display_size:$('display').value.trim(),serial_number:$('serial').value.trim(),price:$('price').value?Number($('price').value):null,problem:$('problem').value.trim(),photos:JSON.stringify(paths)};
+  const row={model,ram:$('ram').value.trim(),ssd:$('ssd').value.trim(),display_size:$('display').value.trim(),serial_number:$('serial').value.trim(),price:$('price').value?Number($('price').value):null,problem:$('problem').value.trim(),photos:JSON.stringify(paths),status:old?.status||'Available'};
   let result;
   if(id) result=await sb.from('Laptop').update(row).eq('id',id); else result=await sb.from('Laptop').insert(row);
   if(result.error){msg('Save failed: '+result.error.message,true);return}
