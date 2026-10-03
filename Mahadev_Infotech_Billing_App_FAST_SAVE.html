@@ -1,0 +1,892 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mahadev Infotech</title>
+<style>
+:root{
+  --bg:#f4f7fb;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;
+  --primary:#2563eb;--primary2:#1d4ed8;--green:#059669;--red:#dc2626;
+  --shadow:0 8px 30px rgba(15,23,42,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Arial,sans-serif;
+  background:linear-gradient(180deg,#eef4ff 0,#f7f9fc 170px,var(--bg) 100%);
+  color:var(--text);-webkit-font-smoothing:antialiased;
+}
+button,input,textarea,select{font:inherit}button{cursor:pointer}
+.hidden{display:none!important}
+.wrap{max-width:760px;margin:auto;padding:18px 15px 110px}
+.card{
+  background:rgba(255,255,255,.96);border:1px solid rgba(229,231,235,.9);
+  border-radius:20px;padding:17px;margin-bottom:14px;box-shadow:var(--shadow)
+}
+.muted{color:var(--muted);font-size:13px}
+.top{
+  position:sticky;top:0;z-index:50;height:68px;background:rgba(255,255,255,.9);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(229,231,235,.9);display:flex;align-items:center;justify-content:center
+}
+.brand{font-weight:900;font-size:20px;letter-spacing:-.4px}
+.hamb{
+  position:absolute;left:14px;top:14px;width:42px;height:40px;border:0;border-radius:13px;
+  background:#f1f5f9;color:#111827;font-size:23px;box-shadow:0 2px 8px rgba(15,23,42,.05)
+}
+.hamb:active{transform:scale(.96)}
+.menu{
+  position:absolute;left:12px;top:58px;width:245px;background:#fff;border:1px solid var(--line);
+  border-radius:18px;box-shadow:0 18px 45px rgba(15,23,42,.16);padding:7px;animation:pop .15s ease
+}
+.menu button{
+  display:block;width:100%;text-align:left;border:0;background:#fff;padding:13px 14px;
+  border-radius:12px;color:#111827;font-weight:650
+}
+.menu button:hover{background:#f3f6fb}
+@keyframes pop{from{opacity:0;transform:translateY(-5px) scale(.98)}to{opacity:1;transform:none}}
+.hero{
+  background:linear-gradient(135deg,#ffffff,#f8fbff);border:1px solid var(--line);
+  border-radius:22px;padding:20px;margin-bottom:14px;box-shadow:var(--shadow)
+}
+.hero h2{margin:0 0 5px;font-size:22px;letter-spacing:-.4px}
+.hero p{margin:0;color:var(--muted);font-size:13px}
+.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.metric{
+  background:#fff;border:1px solid var(--line);border-radius:17px;padding:14px;
+  box-shadow:0 4px 16px rgba(15,23,42,.04);min-height:88px
+}
+.metric b{display:block;font-size:23px;letter-spacing:-.5px;margin-bottom:4px}
+.metric span{font-size:11px;color:var(--muted);font-weight:650}
+.dbgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.dbbox{padding:14px;border:1px solid var(--line);border-radius:16px;background:#fff}
+.dbbox span{font-size:11px;color:var(--muted)}.dbbox b{display:block;font-size:22px;margin-top:5px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
+label{font-size:12px;font-weight:800;display:block;margin:10px 0 6px;color:#374151}
+input,textarea,select{
+  width:100%;border:1px solid #d7dce3;border-radius:12px;padding:12px;background:#fff;
+  color:#111827;outline:none;transition:.15s
+}
+input:focus,textarea:focus,select:focus{border-color:#7aa2ff;box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+textarea{min-height:82px;resize:vertical}.full{grid-column:1/-1}
+.btn{
+  border:0;border-radius:12px;padding:11px 15px;font-weight:800;transition:.15s;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px
+}
+.btn:active{transform:scale(.97)}
+.primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;box-shadow:0 5px 15px rgba(37,99,235,.2)}
+.light{background:#eef2f7;color:#172033}.danger{background:#fee2e2;color:#b91c1c}
+.fullbtn{width:100%;margin-top:12px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}
+.laptop,.sale{
+  border:1px solid var(--line);border-radius:18px;padding:14px;margin-top:10px;background:#fff;
+  box-shadow:0 5px 18px rgba(15,23,42,.045);transition:.15s
+}
+.laptop:hover{transform:translateY(-1px);box-shadow:0 9px 25px rgba(15,23,42,.08)}
+.meta{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:11px;font-size:13px}
+.meta div{background:#f7f9fc;border-radius:11px;padding:9px}.meta b{display:block;color:#6b7280;font-size:10px;margin-bottom:2px}
+.thumbs{display:flex;gap:7px;overflow:auto;margin-bottom:9px}.thumbs img{width:68px;height:68px;object-fit:cover;border-radius:11px;border:1px solid var(--line)}
+.photoPreview{display:flex;gap:8px;overflow:auto;margin-top:8px}.photoPreview img{width:76px;height:76px;object-fit:cover;border-radius:11px;border:1px solid var(--line)}
+.badge{font-size:10px;font-weight:900;padding:6px 9px;border-radius:999px;letter-spacing:.3px}.sold{background:#fee2e2;color:#b91c1c}.available{background:#dcfce7;color:#047857}
+.notice{padding:11px 13px;border-radius:13px;background:#eff6ff;color:#1d4ed8;font-size:13px;margin-bottom:11px}
+.error{background:#fef2f2;color:#b91c1c}
+.login{max-width:430px;margin:9vh auto}
+.bottom{
+  position:fixed;bottom:0;left:0;right:0;z-index:40;background:rgba(255,255,255,.94);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr);
+  gap:7px;padding:8px 10px calc(8px + env(safe-area-inset-bottom))
+}
+.bottom button{
+  border:0;border-radius:14px;padding:11px 4px;background:#eef2f7;color:#172033;
+  font-weight:850;font-size:11px
+}
+.bottom button.active{background:#111827;color:#fff;box-shadow:0 5px 14px rgba(17,24,39,.18)}
+.page{animation:fade .18s ease}@keyframes fade{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:none}}
+.section-title{font-size:14px;font-weight:850;margin:18px 2px 8px}
+@media(max-width:600px){
+  .wrap{padding-left:12px;padding-right:12px}
+  .grid{grid-template-columns:1fr}.meta{grid-template-columns:1fr}
+  .hero{padding:18px}.hero h2{font-size:20px}
+}
+</style>
+
+<style>
+/* Premium entry + dashboard */
+.entry-brand{
+  text-align:center;padding:34px 18px 24px;border-radius:26px;
+  background:linear-gradient(145deg,#ffffff 0%,#eef5ff 100%);
+  border:1px solid #dfe8f8;box-shadow:0 14px 40px rgba(37,99,235,.10);
+  margin-bottom:15px;position:relative;overflow:hidden
+}
+.entry-brand:before{
+  content:"";position:absolute;width:150px;height:150px;border-radius:50%;
+  background:rgba(37,99,235,.08);right:-45px;top:-55px
+}
+.entry-logo{
+  width:66px;height:66px;margin:0 auto 13px;border-radius:20px;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;
+  font-size:31px;box-shadow:0 10px 24px rgba(37,99,235,.25)
+}
+.entry-brand h1{margin:0;font-size:28px;letter-spacing:-.8px}
+.entry-brand p{margin:6px 0 0;color:#64748b;font-size:13px;font-weight:600}
+.dashboard-title{
+  display:flex;align-items:center;gap:10px
+}
+.dashboard-icon{
+  width:42px;height:42px;border-radius:13px;background:#eff6ff;color:#2563eb;
+  display:flex;align-items:center;justify-content:center;font-size:20px
+}
+.metric{position:relative;overflow:hidden}
+.metric:after{
+  content:"";position:absolute;width:55px;height:55px;border-radius:50%;
+  background:#2563eb08;right:-15px;bottom:-20px
+}
+.metric:nth-child(2):after{background:#dc262608}
+.metric:nth-child(3):after{background:#05966908}
+.metric:nth-child(4):after{background:#d9770608}
+.metric:nth-child(5):after{background:#7c3aed08}
+.metric:nth-child(6):after{background:#0891b208}
+.empty-photo{
+  width:100%;height:120px;border-radius:14px;background:#f3f6fa;
+  display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:34px;
+  margin-bottom:10px;border:1px dashed #d7dee8
+}
+.laptop-photo-strip{
+  display:flex;gap:7px;overflow:auto;margin:0 0 11px;padding-bottom:2px
+}
+.laptop-photo-strip img{
+  width:92px;height:76px;flex:0 0 92px;object-fit:cover;border-radius:12px;
+  border:1px solid #e2e8f0;background:#f8fafc
+}
+.login .entry-brand{margin:-17px -17px 17px;border-radius:20px 20px 18px 18px}
+</style>
+
+
+<style>
+/* Final visual polish + compatibility */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{
+  position:relative;overflow:hidden;background:#fff;border:1px solid #e5e7eb;
+  border-radius:17px;padding:15px;min-height:90px;
+  box-shadow:0 4px 16px rgba(15,23,42,.045)
+}
+.stat b{display:block;font-size:23px;letter-spacing:-.5px;margin-bottom:4px}
+.stat span{font-size:11px;color:#6b7280;font-weight:650}
+.nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:60;
+  background:rgba(255,255,255,.94);backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);border-top:1px solid #e5e7eb;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:7px;
+  padding:8px 10px calc(8px + env(safe-area-inset-bottom))
+}
+.nav button{
+  width:100%;border:0;border-radius:14px;padding:12px 4px;
+  background:#eef2f7;color:#172033;font-weight:850;font-size:11px
+}
+.nav button.primary{background:#111827;color:#fff;box-shadow:0 5px 14px rgba(17,24,39,.18)}
+.nav button.light{background:#eef2f7;color:#172033}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+</head>
+<body>
+<header class="top">
+  <button class="hamb" onclick="toggleMenu()">☰</button>
+  <div class="brand">Mahadev Infotech</div>
+  <div class="menu hidden" id="menu">
+    <button onclick="showPage('database')">Database Overview</button>
+    <button onclick="showPage('history')">Sales History</button>
+    <button onclick="showPage('laptops')">Total Laptop</button>
+    <button onclick="showPage('add')">Laptop Entry</button>
+    <button onclick="logout()">Logout</button>
+  </div>
+</header>
+
+<main class="wrap">
+<section id="setup" class="card login hidden">
+  <div class="entry-brand"><div class="entry-logo">💻</div><h1>Mahadev Infotech</h1><p>Smart Laptop Inventory</p><div style="margin-top:14px;display:inline-flex;padding:6px 11px;border-radius:999px;background:#eff6ff;color:#2563eb;font-size:11px;font-weight:800">CLOUD INVENTORY</div></div>
+  <h2>Connect Cloud</h2>
+  <p class="muted">First time only. Enter Supabase Project URL and Publishable key.</p>
+  <label>Supabase Project URL</label><input id="supabaseUrl" placeholder="https://xxxxx.supabase.co">
+  <label>Publishable key</label><input id="supabaseKey" placeholder="sb_publishable_..." autocomplete="off">
+  <button class="btn primary fullbtn" onclick="saveConfig()">Connect</button>
+</section>
+
+<section id="login" class="card login hidden">
+  <div class="entry-brand"><div class="entry-logo">💻</div><h1>Mahadev Infotech</h1><p>Laptop Inventory Management</p></div>
+  <h2>Worker Login</h2>
+  <label>Email</label><input id="email" type="email" autocomplete="username">
+  <label>Password</label><input id="password" type="password" autocomplete="current-password">
+  <button class="btn primary fullbtn" onclick="login()">Login</button>
+  <div id="loginMsg" class="notice hidden"></div>
+  <button class="btn light fullbtn" onclick="resetConfig()">Change cloud settings</button>
+</section>
+
+<section id="app" class="hidden">
+  <div id="msg" class="notice hidden"></div>
+
+  <section id="page-database" class="page">
+    <div class="hero">
+  <div class="dashboard-title"><div class="dashboard-icon">📊</div><div><h2>Database Overview</h2><p>Mahadev Infotech · Complete inventory at a glance</p></div></div>
+</div>
+    <div class="stats">
+      <div class="stat"><b id="dbTotal">0</b><span>💻 Total Laptops</span></div>
+      <div class="stat"><b id="dbSold">0</b><span>🛒 Sold Laptops</span></div>
+      <div class="stat"><b id="dbAvailable">0</b><span>📦 Available Laptops</span></div>
+      <div class="stat"><b id="dbProblems">0</b><span>⚠️ With Problems</span></div>
+      <div class="stat"><b id="dbSellPrice">₹0</b><span>₹ Total Sell Price</span></div>
+      <div class="stat"><b id="dbInvPrice">₹0</b><span>💰 Inventory Value</span></div>
+    </div>
+  </section>
+
+  <section id="page-laptops" class="page hidden">
+    <div class="hero row between"><div><h2>Total Laptop</h2><p>All inventory laptops</p></div><button class="btn primary" onclick="showPage('add')">＋ Add Laptop</button></div>
+    <div id="laptopList"></div>
+  </section>
+
+  <section id="page-add" class="page hidden">
+    <div class="hero"><h2 id="formTitle">Add Laptop</h2><p>Add laptop specifications, price, issue and photos.</p></div>
+    <input id="editId" type="hidden">
+    <div class="grid">
+      <div><label>Model *</label><input id="model"></div>
+      <div><label>Processor</label><input id="processor" placeholder="Intel Core i5 / Ryzen 5 / M1"></div><div><label>RAM</label><input id="ram" placeholder="8 GB / 16 GB"></div>
+      <div><label>SSD</label><input id="ssd" placeholder="256 GB / 512 GB"></div>
+      <div><label>Display Size</label><input id="display" placeholder="14 inch"></div>
+      <div><label>Serial Number</label><input id="serial"></div>
+      <div><label>Price</label><input id="price" type="number" min="0" step="1"></div>
+      <div class="full"><label>Problem / Issue</label><textarea id="problem"></textarea></div>
+      <div class="full"><label>Photos (up to 2) · Auto-compressed for fast saving</label><input id="photos" type="file" accept="image/*" multiple onchange="if(this.files.length>2){alert('Maximum 2 photos allowed');this.value='';return} previewPhotos()"><div id="photoPreview" class="photoPreview"></div></div>
+    </div>
+    <div class="row" style="margin-top:14px"><button class="btn primary" onclick="saveLaptop()">Save Laptop</button><button class="btn light" onclick="showPage('laptops')">Cancel</button></div>
+  </section>
+
+  <section id="page-sell" class="page hidden">
+    <div class="hero"><h2>Sell Laptop</h2><p>Select an available laptop and complete the customer sale details.</p></div>
+    <div id="availableList"></div>
+    <div id="saleForm" class="card hidden">
+      <h3 id="saleLaptopTitle">Sale Details</h3>
+      <input id="saleLaptopId" type="hidden">
+      <input id="saleLaptopModel" type="hidden">
+      <label>Customer Name *</label><input id="customerName">
+      <label>Customer Mobile</label><input id="customerPhone" type="tel">
+      <label>Customer Address</label><textarea id="customerAddress"></textarea>
+      <label>Customer Photo</label><input id="customerPhoto" type="file" accept="image/*" onchange="previewCustomerPhoto()">
+      <div id="customerPhotoPreview" class="photoPreview"></div>
+      <label>Selling Price *</label><input id="sellingPrice" type="number" min="0" step="1">
+      <label>Payment Mode *</label>
+      <select id="paymentMode"><option value="Cash">Cash</option><option value="Online">Online</option></select>
+      <label>Sale Date *</label><input id="saleDate" type="date">
+      <div class="row" style="margin-top:14px"><button class="btn primary" onclick="saveSale()">Save Sale</button><button class="btn light" onclick="cancelSale()">Cancel</button></div>
+    </div>
+  </section>
+
+  <section id="page-history" class="page hidden">
+    <div class="hero"><h2>Sales History</h2><p>All sold laptops and customer sale records.</p></div>
+    <div id="salesList"></div>
+  </section>
+</section>
+</main>
+
+<nav id="nav" class="nav hidden">
+  <button id="navTotal" class="btn light" onclick="showPage('laptops')">Total Laptop</button>
+  <button id="navSell" class="btn light" onclick="showPage('sell')">Sell Laptop</button>
+  <button id="navAdd" class="btn primary" onclick="showPage('add')">Add Laptop</button>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+<script>
+let sb=null, laptops=[], sales=[], selectedSaleLaptop=null, previewUrls=[];
+const $=id=>document.getElementById(id);
+function show(id){$(id).classList.remove('hidden')}
+function hide(id){$(id).classList.add('hidden')}
+function msg(t,e=false){$('msg').textContent=t;$('msg').className='notice '+(e?'error':'');show('msg');setTimeout(()=>hide('msg'),4500)}
+function parsePhotos(v){try{return Array.isArray(v)?v:JSON.parse(v||'[]')}catch{return[]}}
+function money(v){return '₹'+Number(v||0).toLocaleString('en-IN')}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+
+function init(){
+ const u=localStorage.getItem('mahadev_sb_url'),k=localStorage.getItem('mahadev_sb_key');
+ if(!u||!k){show('setup');return}
+ sb=window.supabase.createClient(u,k);
+ sb.auth.getSession().then(({data})=>data.session?startApp(data.session):show('login'));
+}
+function saveConfig(){
+ const u=$('supabaseUrl').value.trim().replace(/\/$/,''),k=$('supabaseKey').value.trim();
+ if(!u||!k)return alert('Project URL aur Publishable key dono bharo.');
+ localStorage.setItem('mahadev_sb_url',u);localStorage.setItem('mahadev_sb_key',k);location.reload()
+}
+function resetConfig(){localStorage.removeItem('mahadev_sb_url');localStorage.removeItem('mahadev_sb_key');location.reload()}
+async function login(){
+ const {data,error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});
+ if(error){$('loginMsg').textContent=error.message;show('loginMsg');return}
+ startApp(data.session)
+}
+async function logout(){if(sb)await sb.auth.signOut();location.reload()}
+function startApp(){hide('setup');hide('login');show('app');show('nav');showPage('database');refreshAll()}
+function toggleMenu(){$('menu').classList.toggle('hidden')}
+function showPage(p){
+ ['database','laptops','add','sell','history'].forEach(x=>hide('page-'+x));
+ show('page-'+p);hide('menu');
+ $('navTotal').className='btn '+(p==='laptops'?'primary':'light');
+ $('navSell').className='btn '+(p==='sell'?'primary':'light');
+ $('navAdd').className='btn '+(p==='add'?'primary':'light');
+ if(p==='database')renderDatabase();
+ if(p==='laptops')renderLaptops();
+ if(p==='sell')renderAvailable();
+ if(p==='history')renderSales();
+ window.scrollTo({top:0,behavior:'smooth'})
+}
+async function refreshAll(){
+ await loadLaptops();await loadSales();renderDatabase()
+}
+async function loadLaptops(){
+ const {data,error}=await sb.from('Laptop').select('*').order('id',{ascending:false});
+ if(error){msg('Laptop table error: '+error.message,true);return}
+ laptops=data||[]
+}
+async function loadSales(){
+ const {data,error}=await sb.from('LaptopSales').select('*');
+ if(error){sales=[];msg('LaptopSales table error: '+error.message,true);return}
+ sales=(data||[]).sort((a,b)=>String(b.sale_date||b.created_at||'').localeCompare(String(a.sale_date||a.created_at||'')))
+}
+function soldIds(){return new Set(sales.map(x=>String(x.laptop_id)))}
+function renderDatabase(){
+ const sold=sales.length, total=laptops.length, avail=laptops.filter(x=>!soldIds().has(String(x.id))).length;
+ const problems=laptops.filter(x=>(x.problem||'').trim()).length;
+ const sellTotal=sales.reduce((a,x)=>a+Number(x.selling_price||0),0);
+ const invTotal=laptops.reduce((a,x)=>a+Number(x.price||0),0);
+ $('dbTotal').textContent=total;$('dbSold').textContent=sold;$('dbAvailable').textContent=avail;$('dbProblems').textContent=problems;
+ $('dbSellPrice').textContent=money(sellTotal);$('dbInvPrice').textContent=money(invTotal)
+}
+async function getSigned(path){
+ const {data,error}=await sb.storage.from('laptop photos').createSignedUrl(path,3600);return error?null:data?.signedUrl
+}
+function renderLaptops(){
+  const box=$('laptopList');box.innerHTML='';
+  if(!laptops.length){box.innerHTML='<div class="notice">No laptops added yet.</div>';return}
+  const ids=soldIds();
+  laptops.forEach(x=>{
+    const sold=ids.has(String(x.id));
+    const el=document.createElement('div');el.className='laptop';
+    const photos=parsePhotos(x.photos);
+    el.innerHTML=`<div class="laptop-photo-strip"></div>
+      <div class="row between"><div><b>${esc(x.model||'Unnamed')}</b><div class="muted">${esc(x.serial_number||'No serial')}</div></div><span class="badge ${sold?'sold':'available'}">${sold?'SOLD':'AVAILABLE'}</span></div>
+      <div class="meta"><div><b>Processor</b>${esc(x.processor||'-')}</div><div><b>RAM</b>${esc(x.ram||'-')}</div><div><b>SSD</b>${esc(x.ssd||'-')}</div><div><b>Display</b>${esc(x.display_size||'-')}</div><div><b>Price</b>${money(x.price)}</div><div class="full"><b>Problem</b>${esc(x.problem||'No issue')}</div></div>
+      <div class="row" style="margin-top:10px"><button class="btn light" data-edit>Edit</button><button class="btn danger" data-del>Delete</button>${sold?'':'<button class="btn primary" data-sell>Sell Laptop</button>'}</div>`;
+    const strip=el.querySelector('.laptop-photo-strip');
+    if(photos.length){
+      photos.slice(0,5).forEach(p=>{
+        const im=document.createElement('img');im.alt='Laptop photo';strip.appendChild(im);
+        getSigned(p).then(u=>{if(u)im.src=u});
+      });
+    }else{
+      strip.innerHTML='<div class="empty-photo">💻</div>';
+    }
+    el.querySelector('[data-edit]').onclick=()=>openEdit(x);
+    el.querySelector('[data-del]').onclick=()=>deleteLaptop(x);
+    if(!sold)el.querySelector('[data-sell]').onclick=()=>openSale(x);
+    box.appendChild(el)
+  })
+}
+function clearForm(){['editId','model','processor','ram','ssd','display','serial','price','problem'].forEach(x=>$(x).value='');$('photos').value='';$('photoPreview').innerHTML='';previewUrls=[]}
+function openEdit(x){
+ showPage('add');$('formTitle').textContent='Edit Laptop';$('editId').value=x.id;
+ $('model').value=x.model||'';$('processor').value=x.processor||'';$('ram').value=x.ram||'';$('ssd').value=x.ssd||'';$('display').value=x.display_size||'';$('serial').value=x.serial_number||'';$('price').value=x.price??'';$('problem').value=x.problem||'';
+ previewUrls=parsePhotos(x.photos);renderExisting()
+}
+function previewPhotos(){
+ $('photoPreview').innerHTML='';
+ [...$('photos').files].slice(0,2).forEach(f=>{const im=document.createElement('img');im.src=URL.createObjectURL(f);$('photoPreview').appendChild(im)})
+}
+function renderExisting(){
+ $('photoPreview').innerHTML='';
+ previewUrls.forEach(p=>{const im=document.createElement('img');$('photoPreview').appendChild(im);getSigned(p).then(u=>{if(u)im.src=u})})
+}
+function compressLaptopImage(file,maxSide=1400,quality=0.72){
+ return new Promise((resolve,reject)=>{
+  if(!file || !file.type.startsWith('image/')){resolve(file);return}
+  const img=new Image(), url=URL.createObjectURL(file);
+  img.onload=()=>{
+   URL.revokeObjectURL(url);
+   const scale=Math.min(1,maxSide/Math.max(img.naturalWidth||maxSide,img.naturalHeight||maxSide));
+   const w=Math.max(1,Math.round((img.naturalWidth||maxSide)*scale));
+   const h=Math.max(1,Math.round((img.naturalHeight||maxSide)*scale));
+   const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
+   const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,w,h);
+   canvas.toBlob(blob=>{
+    if(!blob){reject(new Error('Image compression failed'));return}
+    resolve(new File([blob],(file.name||'photo').replace(/\.[^.]+$/,'')+'.jpg',{type:'image/jpeg'}));
+   },'image/jpeg',quality);
+  };
+  img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Could not read image'))};
+  img.src=url;
+ });
+}
+async function uploadLaptopPhotosFast(files){
+ const selected=[...files].slice(0,2);
+ if(!selected.length)return [];
+ const compressed=await Promise.all(selected.map(f=>compressLaptopImage(f)));
+ const uploads=compressed.map(async f=>{
+  const path='private/'+crypto.randomUUID()+'.jpg';
+  const {error}=await sb.storage.from('laptop photos').upload(path,f,{upsert:false,contentType:'image/jpeg'});
+  if(error)throw error;
+  return path;
+ });
+ return Promise.all(uploads);
+}
+async function saveLaptop(){
+ const model=$('model').value.trim();
+ if(!model)return alert('Model bharna zaroori hai.');
+ const id=$('editId').value;
+ const old=laptops.find(x=>String(x.id)===String(id));
+ let paths=old?parsePhotos(old.photos):[];
+ try{
+  const files=[...$('photos').files].slice(0,2);
+  if(files.length){
+   const newPaths=await uploadLaptopPhotosFast(files);
+   paths=[...paths,...newPaths].slice(-2);
+  }
+ }catch(e){msg('Photo upload failed: '+(e.message||e),true);return}
+ const row={model,processor:$('processor').value.trim(),ram:$('ram').value.trim(),ssd:$('ssd').value.trim(),display_size:$('display').value.trim(),serial_number:$('serial').value.trim(),price:$('price').value?Number($('price').value):null,problem:$('problem').value.trim(),photos:JSON.stringify(paths)};
+ let result=id?await sb.from('Laptop').update(row).eq('id',id):await sb.from('Laptop').insert(row);
+ // Keep compatibility if the Processor column has not yet been added in Supabase.
+ if(result.error && /processor.*does not exist|column.*processor.*does not exist/i.test(result.error.message||'')){
+  const fallback={...row};delete fallback.processor;
+  result=id?await sb.from('Laptop').update(fallback).eq('id',id):await sb.from('Laptop').insert(fallback);
+ }
+ if(result.error){msg('Save failed: '+result.error.message,true);return}
+ msg(id?'Laptop updated quickly.':'Laptop saved quickly.');
+ clearForm();
+ // Only refresh the inventory list; sales data has not changed, so avoid an unnecessary second query.
+ await loadLaptops();
+ renderLaptops();
+ showPage('laptops');
+}
+async function deleteLaptop(x){
+ if(!confirm('Is laptop ko delete karna hai?'))return;
+ if(soldIds().has(String(x.id)))return alert('Sold laptop ko delete karne se pehle sale record handle karein.');
+ const paths=parsePhotos(x.photos);if(paths.length)await sb.storage.from('laptop photos').remove(paths);
+ const {error}=await sb.from('Laptop').delete().eq('id',x.id);if(error){msg('Delete failed: '+error.message,true);return}
+ await refreshAll();msg('Laptop deleted.');renderLaptops()
+}
+function openSale(x){
+ selectedSaleLaptop=x;$('saleLaptopId').value=x.id;$('saleLaptopModel').value=x.model||'';$('saleLaptopTitle').textContent='Sell: '+(x.model||'Laptop');
+ $('customerName').value='';$('customerPhone').value='';$('customerAddress').value='';$('customerPhoto').value='';$('customerPhotoPreview').innerHTML='';
+ $('sellingPrice').value=x.price??'';$('paymentMode').value='Cash';$('saleDate').value=new Date().toISOString().slice(0,10);
+ showPage('sell');show('saleForm');window.scrollTo({top:0,behavior:'smooth'})
+}
+function cancelSale(){$('saleForm').classList.add('hidden');selectedSaleLaptop=null;renderAvailable()}
+function previewCustomerPhoto(){
+ $('customerPhotoPreview').innerHTML='';const f=$('customerPhoto').files[0];if(f){const im=document.createElement('img');im.src=URL.createObjectURL(f);$('customerPhotoPreview').appendChild(im)}
+}
+function renderAvailable(){
+  const ids=soldIds(),box=$('availableList');box.innerHTML='';
+  const av=laptops.filter(x=>!ids.has(String(x.id)));
+  if(!av.length){box.innerHTML='<div class="notice">No available laptops to sell.</div>';return}
+  av.forEach(x=>{
+    const el=document.createElement('div');el.className='laptop';
+    el.innerHTML=`<div class="laptop-photo-strip"></div><div class="row between"><div><b>${esc(x.model||'Unnamed')}</b><div class="muted">${esc(x.serial_number||'No serial')} · ${esc(x.processor||'-')} · ${money(x.price)}</div></div><button class="btn primary">Sell</button></div>`;
+    const strip=el.querySelector('.laptop-photo-strip'), photos=parsePhotos(x.photos);
+    if(photos.length)photos.slice(0,3).forEach(p=>{const im=document.createElement('img');strip.appendChild(im);getSigned(p).then(u=>{if(u)im.src=u})});
+    else strip.innerHTML='<div class="empty-photo">💻</div>';
+    el.querySelector('button').onclick=()=>openSale(x);box.appendChild(el)
+  })
+}
+async function saveSale(){
+ if(!selectedSaleLaptop)return alert('Laptop select karo.');
+ const customer=$('customerName').value.trim(), price=$('sellingPrice').value;
+ if(!customer||!price)return alert('Customer name aur selling price bharna zaroori hai.');
+
+ let customerPhotoPath='';
+ const f=$('customerPhoto').files[0];
+ if(f){
+  const path='private/customers/'+crypto.randomUUID()+'_'+f.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+  const up=await sb.storage.from('laptop photos').upload(path,f,{upsert:false,contentType:f.type});
+  if(up.error){msg('Customer photo upload failed: '+up.error.message,true);return}
+  customerPhotoPath=path
+ }
+
+ let saleRow={
+  laptop_id:selectedSaleLaptop.id,
+  laptop_model:selectedSaleLaptop.model||'',
+  customer_name:customer,
+  customer_mobile:$('customerPhone').value.trim(),
+  customer_address:$('customerAddress').value.trim(),
+  customer_photo:customerPhotoPath,
+  selling_price:Number(price),
+  payment_mode:$('paymentMode').value,
+  sale_date:$('saleDate').value
+ };
+
+ // Retry automatically if Supabase reports a missing LaptopSales column.
+ // This fixes errors such as: "Could not find the 'customer_phone' column".
+ let result;
+ const removedColumns=[];
+ for(let attempt=0;attempt<10;attempt++){
+  result=await sb.from('LaptopSales').insert(saleRow);
+  if(!result.error)break;
+
+  const em=String(result.error.message||'');
+  const m=em.match(/Could not find the '([^']+)' column of 'LaptopSales'/i)
+       ||em.match(/column ['"]?([^'"]+)['"]? of ['"]?LaptopSales['"]? does not exist/i)
+       ||em.match(/column ['"]?([^'"]+)['"]? does not exist/i);
+
+  if(!m)break;
+  const missing=m[1];
+  if(!(missing in saleRow))break;
+  delete saleRow[missing];
+  removedColumns.push(missing);
+ }
+
+ if(result.error){
+  msg('Sale save failed: '+result.error.message,true);
+  return;
+ }
+
+ msg(removedColumns.length
+   ? 'Laptop sold successfully. Missing database columns skipped: '+removedColumns.join(', ')
+   : 'Laptop sold successfully.'
+ );
+
+ selectedSaleLaptop=null;
+ await refreshAll();
+ showPage('history')
+}
+
+function renderSales(){
+ const box=$('salesList');box.innerHTML='';
+ if(!sales.length){box.innerHTML='<div class="notice">No sales yet.</div>';return}
+ sales.forEach(s=>{
+  const el=document.createElement('div');el.className='laptop';
+  const saleDisplay=s.sale_date||s.created_at||'Date not stored';
+  el.innerHTML=`<div class="row between">
+    <div><b>${esc(s.laptop_model||'Laptop')}</b><div class="muted">${esc(saleDisplay)}</div></div>
+    <span class="badge sold">SOLD</span>
+  </div>
+  <div class="meta">
+    <div><b>Customer</b>${esc(s.customer_name||'-')}</div>
+    <div><b>Mobile</b>${esc(s.customer_mobile||s.customer_phone||'-')}</div>
+    <div><b>Payment</b>${esc(s.payment_mode||'-')}</div>
+    <div><b>Selling Price</b>${money(s.selling_price)}</div>
+    <div class="full"><b>Address</b>${esc(s.customer_address||'-')}</div>
+  </div>
+  <div class="row" style="margin-top:10px">
+    <button class="btn primary" data-pdf>📄 Download PDF</button>
+    <button class="btn light" data-print>🖨️ Print / Save PDF</button>
+    <button class="btn danger" data-delete>🗑️ Delete Sale</button>
+  </div>`;
+  el.querySelector('[data-pdf]').onclick=()=>downloadSalePDF(s);
+  el.querySelector('[data-print]').onclick=()=>printSalePDF(s);
+  el.querySelector('[data-delete]').onclick=()=>deleteSale(s);
+  box.appendChild(el)
+ })
+}
+
+async function deleteSale(s){
+ if(!confirm('Is sale entry ko permanently delete karna hai?\nDelete karne ke baad laptop AVAILABLE ho jayega.'))return;
+
+ const {error}=await sb.from('LaptopSales').delete().eq('id',s.id);
+ if(error){
+   if(/row-level security|permission denied|not authorized/i.test(error.message||'')){
+     msg('Delete blocked by Supabase RLS. SQL policy add karni hogi.',true);
+   }else{
+     msg('Sale delete failed: '+error.message,true);
+   }
+   return;
+ }
+
+ if(s.customer_photo){
+   try{await sb.storage.from('laptop photos').remove([s.customer_photo])}catch(e){}
+ }
+
+ await refreshAll();
+ renderSales();
+ renderDatabase();
+ msg('Sale entry deleted. Laptop is available again.')
+}
+
+async function ensureJsPDF(){
+  if(window.jspdf && window.jspdf.jsPDF) return true;
+  try{
+    await new Promise((resolve,reject)=>{
+      const sc=document.createElement('script');
+      sc.src='https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js';
+      sc.onload=resolve; sc.onerror=reject;
+      document.head.appendChild(sc);
+    });
+  }catch(e){}
+  return !!(window.jspdf && window.jspdf.jsPDF);
+}
+
+function pdfCell(doc,x,y,w,h,text,bold=false,align='left'){
+  doc.setDrawColor(210,215,225);
+  doc.setLineWidth(.25);
+  doc.rect(x,y,w,h);
+  doc.setFont('helvetica',bold?'bold':'normal');
+  doc.setFontSize(9);
+  const t=String(text??'-');
+  const lines=doc.splitTextToSize(t,w-6);
+  const yy=y+6;
+  if(align==='right') doc.text(lines,x+w-3,yy,{align:'right'});
+  else if(align==='center') doc.text(lines,x+w/2,yy,{align:'center'});
+  else doc.text(lines,x+3,yy);
+}
+
+async function salePhotoDataURL(path){
+  if(!path || !sb) return null;
+  try{
+    const url=await getSigned(path);
+    if(!url) return null;
+    const r=await fetch(url);
+    const b=await r.blob();
+    return await new Promise(resolve=>{
+      const fr=new FileReader();
+      fr.onload=()=>resolve(fr.result);
+      fr.onerror=()=>resolve(null);
+      fr.readAsDataURL(b);
+    });
+  }catch(e){return null}
+}
+
+function drawBox(doc,x,y,w,h,fill=false){
+  doc.setDrawColor(205,218,235);
+  doc.setLineWidth(.3);
+  if(fill){
+    doc.setFillColor(240,246,255);
+    doc.roundedRect(x,y,w,h,2.5,2.5,'FD');
+  }else{
+    doc.roundedRect(x,y,w,h,2.5,2.5,'S');
+  }
+}
+
+function lineText(doc,label,value,x,y,labelW=28){
+  doc.setFont('helvetica','normal');doc.setFontSize(10);
+  doc.text(label,x,y);
+  doc.text(':',x+labelW,y);
+  doc.text(String(value??'-'),x+labelW+5,y);
+}
+
+async function buildSalePDFDoc(s){
+  const {jsPDF}=window.jspdf||{};
+  if(!jsPDF) throw new Error('PDF library not loaded');
+
+  const doc=new jsPDF({unit:'mm',format:'a4'});
+  const W=210,M=7,right=W-M;
+  const laptop=laptops.find(x=>String(x.id)===String(s.laptop_id))||{};
+  const billNo='MI-'+String(s.id||Date.now()).slice(-8).toUpperCase();
+  const saleDate=s.sale_date||((s.created_at||'').slice(0,10))||new Date().toISOString().slice(0,10);
+  const total=Number(s.selling_price||0);
+
+  // Outer border
+  doc.setDrawColor(135,145,160);doc.setLineWidth(.5);doc.rect(2,2,W-4,293);
+
+  // Header
+  doc.setFont('helvetica','bold');doc.setTextColor(10,25,55);doc.setFontSize(23);
+  doc.text('Mahadev Infotech',8,19);
+  doc.setFont('helvetica','normal');doc.setFontSize(10);
+  doc.text('Laptops Buying, Selling & Service',8,27);
+
+  // Contact lines — intentionally blank unless configured by user.
+  const shopAddress=localStorage.getItem('mahadev_shop_address')||'';
+  const shopPhone=localStorage.getItem('mahadev_shop_phone')||'';
+  const shopEmail=localStorage.getItem('mahadev_shop_email')||'';
+  let hy=35;
+  if(shopAddress){doc.text('●  '+shopAddress,9,hy);hy+=7}
+  if(shopPhone){doc.text('●  '+shopPhone,9,hy);hy+=7}
+  if(shopEmail){doc.text('●  '+shopEmail,9,hy);hy+=7}
+
+  // Tax Invoice box
+  const bx=137,by=11,bw=66,bh=42;
+  drawBox(doc,bx,by,bw,bh,true);
+  doc.setFont('helvetica','bold');doc.setFontSize(15);doc.text('TAX INVOICE',bx+bw/2,25,{align:'center'});
+  doc.setDrawColor(215,225,238);doc.line(bx,30,bx+bw,30);
+  lineText(doc,'Bill No.',billNo,bx+5,38,22);
+  lineText(doc,'Date',saleDate,bx+5,46,22);
+  lineText(doc,'Time',new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}),bx+5,53,22);
+
+  // Customer + payment boxes
+  const boxY=61, boxH=48, gap=4, boxW=(W-2*M-gap)/2;
+  drawBox(doc,M,boxY,boxW,boxH);
+  drawBox(doc,M+boxW+gap,boxY,boxW,boxH);
+  doc.setFillColor(235,244,255);
+  doc.roundedRect(M,boxY,boxW,13,2.5,2.5,'F');
+  doc.roundedRect(M+boxW+gap,boxY,boxW,13,2.5,2.5,'F');
+
+  doc.setTextColor(10,35,75);doc.setFont('helvetica','bold');doc.setFontSize(13);
+  doc.text('Customer Details',M+5,boxY+9);
+  doc.text('Payment Details',M+boxW+gap+5,boxY+9);
+  doc.setTextColor(20,30,45);
+
+  lineText(doc,'Name',s.customer_name||'-',M+5,boxY+21,22);
+  lineText(doc,'Mobile',s.customer_mobile||s.customer_phone||'-',M+5,boxY+30,22);
+  const addr=doc.splitTextToSize(String(s.customer_address||'-'),boxW-38);
+  doc.setFontSize(10);doc.text('Address',M+5,boxY+39);doc.text(':',M+27,boxY+39);doc.text(addr,M+32,boxY+39);
+
+  lineText(doc,'Payment Mode',s.payment_mode||'-',M+boxW+gap+5,boxY+21,27);
+  lineText(doc,'Amount Paid',money(total),M+boxW+gap+5,boxY+30,27);
+  lineText(doc,'Balance',money(0),M+boxW+gap+5,boxY+39,27);
+
+  // Product table
+  const tableY=115;
+  const x0=M;
+  const cols=[12,106,15,29,31]; // #, product, qty, price, total
+  const xs=[x0];
+  cols.forEach((w,i)=>xs.push(xs[i]+w));
+  const headerH=12, rowH=48;
+
+  doc.setFillColor(235,244,255);doc.setDrawColor(205,218,235);doc.setLineWidth(.3);
+  doc.rect(x0,tableY,193,headerH,'FD');
+  doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(10,35,75);
+  doc.text('#',xs[0]+6,tableY+8,{align:'center'});
+  doc.text('Product Details',xs[1]+5,tableY+8);
+  doc.text('Qty',xs[2]+7,tableY+8,{align:'center'});
+  doc.text('Price (₹)',xs[3]+14,tableY+8,{align:'center'});
+  doc.text('Total (₹)',xs[4]+15,tableY+8,{align:'center'});
+
+  const rowY=tableY+headerH;
+  doc.setFillColor(255,255,255);doc.rect(x0,rowY,193,rowH,'FD');
+  for(let i=1;i<xs.length;i++)doc.line(xs[i],tableY,xs[i],rowY+rowH);
+
+  doc.setTextColor(20,30,45);doc.setFont('helvetica','bold');doc.setFontSize(12);
+  doc.text('1',xs[0]+6,rowY+24,{align:'center'});
+  doc.text(s.laptop_model||laptop.model||'Laptop',xs[1]+31,rowY+9);
+
+  doc.setFont('helvetica','normal');doc.setFontSize(9.5);
+  const specs=[
+    ['Processor',laptop.processor||'-'],
+    ['RAM',laptop.ram||'-'],
+    ['Storage',laptop.ssd||'-'],
+    ['Display',laptop.display_size||'-'],
+    ['Serial No.',laptop.serial_number||'-'],
+    ['Condition',laptop.problem||'Used (Good)']
+  ];
+  let sy=rowY+19;
+  specs.forEach(r=>{doc.text(r[0],xs[1]+31,sy);doc.text(': '+String(r[1]),xs[1]+58,sy);sy+=6});
+  doc.setFontSize(11);doc.text('1',xs[2]+7,rowY+27,{align:'center'});
+  doc.text(Number(total).toLocaleString('en-IN'),xs[3]+14,rowY+27,{align:'center'});
+  doc.text(Number(total).toLocaleString('en-IN'),xs[4]+15,rowY+27,{align:'center'});
+
+  // Totals block
+  const ty=rowY+rowH;
+  const totalX=119,totalW=74;
+  doc.setFillColor(255,255,255);doc.rect(totalX,ty,totalW,54,'FD');
+  doc.line(totalX,ty+18,totalX+totalW,ty+18);
+  doc.line(totalX,ty+36,totalX+totalW,ty+36);
+  doc.setFont('helvetica','normal');doc.setFontSize(10);
+  doc.text('Subtotal',totalX+6,ty+12);doc.text(money(total),totalX+totalW-5,ty+12,{align:'right'});
+  doc.text('Discount',totalX+6,ty+30);doc.text('₹0',totalX+totalW-5,ty+30,{align:'right'});
+  doc.setFillColor(235,244,255);doc.rect(totalX,ty+36,totalW,18,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(13);
+  doc.text('Grand Total',totalX+6,ty+48);doc.text(money(total),totalX+totalW-5,ty+48,{align:'right'});
+
+  // Terms
+  const termsY=218;
+  drawBox(doc,M,termsY,105,42);
+  doc.setFillColor(235,244,255);doc.roundedRect(M,termsY,105,12,2.5,2.5,'F');
+  doc.setTextColor(10,35,75);doc.setFont('helvetica','bold');doc.setFontSize(11);
+  doc.text('Terms & Conditions',M+5,termsY+8);
+  doc.setTextColor(20,30,45);doc.setFont('helvetica','normal');doc.setFontSize(8.7);
+  [
+    '1. Goods once sold will not be taken back.',
+    '2. Warranty as per product condition.',
+    '3. Physical or liquid damage not covered.',
+    '4. This is a computer generated bill.'
+  ].forEach((t,i)=>doc.text(t,M+5,termsY+20+i*6));
+
+  // Thank you + signature
+  doc.setFont('helvetica','italic');doc.setFontSize(20);doc.text('Thank You!',154,242,{align:'center'});
+  doc.setFont('helvetica','normal');doc.setFontSize(9.5);doc.text('for choosing',154,252,{align:'center'});
+  doc.setFont('helvetica','bold');doc.setFontSize(12);doc.text('Mahadev Infotech',154,260,{align:'center'});
+  doc.setDrawColor(40,50,65);doc.line(137,277,193,277);
+  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.text('Authorised Signatory',165,284,{align:'center'});
+  doc.setFont('helvetica','bold');doc.text('Mahadev Infotech',165,291,{align:'center'});
+
+  // Optional laptop photo in product area (if available).
+  // We add it only when a signed image can be fetched; otherwise the bill remains fully text based.
+  try{
+    const photos=parsePhotos(laptop.photos);
+    if(photos.length){
+      const data=await salePhotoDataURL(photos[0]);
+      if(data)doc.addImage(data,'JPEG',xs[1]+4,rowY+12,22,18);
+    }
+  }catch(e){}
+
+  return {doc,billNo};
+}
+
+async function ensureJsPDF(){
+  if(window.jspdf && window.jspdf.jsPDF)return true;
+  try{
+    await new Promise((resolve,reject)=>{
+      const sc=document.createElement('script');
+      sc.src='https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js';
+      sc.onload=resolve;sc.onerror=reject;document.head.appendChild(sc);
+    });
+  }catch(e){}
+  return !!(window.jspdf && window.jspdf.jsPDF);
+}
+
+async function downloadSalePDF(s){
+  try{
+    const ok=await ensureJsPDF();
+    if(!ok){
+      alert('PDF library load nahi hui. Internet ON karke page refresh karein.');
+      return;
+    }
+
+    const result=await buildSalePDFDoc(s);
+    const doc=result.doc;
+    const billNo=result.billNo;
+    const filename='Mahadev-Infotech-Bill-'+billNo+'.pdf';
+
+    // Primary method: jsPDF's own save() is the most reliable download
+    // path in Safari when the PDF is generated entirely in the browser.
+    if(doc && typeof doc.save==='function'){
+      doc.save(filename);
+      return;
+    }
+
+    // Fallback: open the generated PDF as a data URL.
+    const dataUrl=doc.output('datauristring');
+    const w=window.open(dataUrl,'_blank');
+    if(!w){
+      window.location.href=dataUrl;
+    }
+  }catch(e){
+    console.error(e);
+    alert('PDF download nahi ho paaya: '+(e.message||e));
+  }
+}
+
+async function printSalePDF(s){
+  const ok=await ensureJsPDF();
+  if(!ok){alert('PDF library load nahi hui. Internet ON karke page refresh karein.');return}
+  try{
+    const {doc}=await buildSalePDFDoc(s);
+    // Native browser print/save is the reliable Safari fallback.
+    const dataUrl=doc.output('dataurlstring');
+    const w=window.open('','_blank');
+    if(!w){
+      alert('Popup blocked hai. Safari settings mein pop-up allow karke dobara tap karein.');
+      return;
+    }
+    w.document.open();
+    w.document.write('<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mahadev Infotech Bill</title><style>html,body{margin:0;height:100%;background:#fff}iframe{border:0;width:100%;height:100%}</style></head><body><iframe src="'+dataUrl+'"></iframe></body></html>');
+    w.document.close();
+    setTimeout(()=>{try{w.focus();w.print()}catch(e){}},1200);
+  }catch(e){
+    console.error(e);alert('PDF/Print nahi ho paaya: '+e.message);
+  }
+}
+
+function exportCSV(){
+ const cols=['model','processor','ram','ssd','display_size','serial_number','price','problem'];
+ const lines=[cols.join(',')].concat(laptops.map(x=>cols.map(c=>`"${String(x[c]??'').replace(/"/g,'""')}"`).join(',')));
+ const blob=new Blob(["\ufeff"+lines.join('\n')],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='mahadev-infotech-inventory.csv';a.click()
+}
+init();
+</script>
+</body>
+</html>
